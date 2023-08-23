@@ -17,15 +17,14 @@ public class PostController {
         this.service = service;
     }
 
-    public synchronized void all(HttpServletResponse response) throws IOException {
+    public void all(HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
         final var data = service.all();
         final var gson = new Gson();
         response.getWriter().print(gson.toJson(data));
     }
 
-    public synchronized void getById(long id, HttpServletResponse response) {
-        // TODO: deserialize request & serialize response
+    public void getById(long id, HttpServletResponse response) {
         response.setContentType(APPLICATION_JSON);
         try {
             response.getWriter().print(gson.toJson(service.getById(id)));
@@ -38,7 +37,7 @@ public class PostController {
         }
     }
 
-    public synchronized void save(Reader body, HttpServletResponse response) throws IOException {
+    public void save(Reader body, HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
         final var gson = new Gson();
         final var post = gson.fromJson(body, Post.class);
@@ -46,8 +45,7 @@ public class PostController {
         response.getWriter().print(gson.toJson(data));
     }
 
-    public synchronized void removeById(long id, HttpServletResponse response) throws IOException {
-        // TODO: deserialize request & serialize response
+    public void removeById(long id, HttpServletResponse response) throws IOException {
         try {
             if (service.getById(id) != null) {
                 service.removeById(id);
