@@ -17,6 +17,9 @@ public class MainServlet extends HttpServlet {
   public static final String API_POSTS_ID = "/api/posts/\\d+";
   private PostController controller;
 
+  private long getId(String path) {
+    return Long.parseLong(path.substring(path.lastIndexOf("/")));
+  }
   @Override
   public void init() {
     final var repository = new PostRepository();
@@ -34,7 +37,7 @@ public class MainServlet extends HttpServlet {
         return;
       }
       if (method.equals(GET) && path.matches(API_POSTS_ID)) {
-        final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+        final var id = getId(path);
         controller.getById(id, resp);
         return;
       }
@@ -43,7 +46,7 @@ public class MainServlet extends HttpServlet {
         return;
       }
       if (method.equals(DELETE) && path.matches(API_POSTS_ID)) {
-        final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+        final var id = getId(path);
         controller.removeById(id, resp);
         return;
       }
